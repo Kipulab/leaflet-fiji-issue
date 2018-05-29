@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Leaflet fiji bug</title>
+	<style>
+		#lmap{
+			width: 100%;
+			height: 400px;
+			border:1px solid black;
+		}
+	</style>
+	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+</head>
+<body>
+	
+	<p>Leaflet Fiji issue</p>
+
+	<div id="lmap"></div>
+
+	
+	<script src="bower_components/leaflet/dist/leaflet.js"></script>
+	<script>
+
+		const map_element = document.getElementById('lmap');
+		
+    const map = L.map(map_element, {
+    	center : [0,0],
+    	zoom : 13,
+      zoomControl:true
+    });
+
+    var uri = 'https://api.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}',
+    options = {
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1Ijoicm9kcmlnb2tpcHVsYWIiLCJhIjoiY2pldWRranZ0MDAwczJ3bng1Z2lwMTl1ayJ9.xXxb5j3cNekErVo91d1hyg',
+      attribution: "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+      maxZoom: 18
+      // minZoom : 13
+    };
+    L.tileLayer(uri, options).addTo(map);
+
+
+    const l_points = [
+    	[-16.853279447479053, -179.91599321365356],
+    	[-16.802872, 179.990837]
+    ];
+
+
+    L.marker(l_points[0]).addTo(map);
+    L.marker(l_points[1]).addTo(map);
+
+    map.fitBounds(
+      l_points,
+			{
+        paddingTopLeft: [ 60,60 ],
+        paddingBottomRight: [60,60],
+        maxZoom:16,
+        minZoom:15
+      }
+    );
+    map.invalidateSize();
+
+	</script>
+</body>
+</html>
